@@ -12,7 +12,7 @@ g@unit01:~/code/lash/lib/jstruct$ source jstruct.sh
 g@unit01:~/code/lash/lib/jstruct$ JSON_STRING=$(docker inspect $(docker ps -q | head -n 1) ) decodeJson 
 JSON_STRING_1
 ```
-#pretty print it with jq
+- pretty print it with jq
 ```g@unit01:~/code/lash/lib/jstruct$ echo $JSON_STRING_1 | jq .```
 ```
 {
@@ -177,7 +177,7 @@ JSON_STRING_1
 }
 ```
 
-#lets decode the real thing
+- lets decode the real thing
 ```
 g@unit01:~/code/lash/lib/jstruct$ decodeJson JSON_STRING_1
 Path
@@ -203,7 +203,7 @@ MountLabel
 LogPath
 ```
 
-#hey look now all the keys are enviornment vars, dont worry about complex queries and wierd escape issues!
+- hey look now all the keys are enviornment vars, dont worry about complex queries and wierd escape issues!
 ```
 g@unit01:~/code/lash/lib/jstruct$ echo $Path
 /bin/sh

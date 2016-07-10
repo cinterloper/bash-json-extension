@@ -1,17 +1,20 @@
+```
 g@unit01:~/code/lash/lib/ext/luabash$ enable -f build/luabash.so luabash
 g@unit01:~/code/lash/lib/ext/luabash$ cd ../../
 g@unit01:~/code/lash/lib$ cd jstruct/
 g@unit01:~/code/lash/lib/jstruct$ ls
 jstruct.lua  jstruct.sh
 g@unit01:~/code/lash/lib/jstruct$ source jstruct.sh 
-
-#get some docker json from docker inspect, this is actually a 1-element arry, so we get an annoying _1 variable 
-#(1-99 are taken as env names in bash)
+```
+- get some docker json from docker inspect, this is actually a 1-element arry, so we get an annoying _1 variable 
+- (1-99 are taken as env names in bash)
+```
 g@unit01:~/code/lash/lib/jstruct$ JSON_STRING=$(docker inspect $(docker ps -q | head -n 1) ) decodeJson 
 JSON_STRING_1
-
+```
 #pretty print it with jq
-g@unit01:~/code/lash/lib/jstruct$ echo $JSON_STRING_1 | jq .
+```g@unit01:~/code/lash/lib/jstruct$ echo $JSON_STRING_1 | jq .```
+```
 {
   "AppArmorProfile": "",
   "Args": [
@@ -172,8 +175,10 @@ g@unit01:~/code/lash/lib/jstruct$ echo $JSON_STRING_1 | jq .
     "Status": "running"
   }
 }
+```
 
 #lets decode the real thing
+```
 g@unit01:~/code/lash/lib/jstruct$ decodeJson JSON_STRING_1
 Path
 ResolvConfPath
@@ -196,8 +201,10 @@ Args
 HostsPath
 MountLabel
 LogPath
+```
 
 #hey look now all the keys are enviornment vars, dont worry about complex queries and wierd escape issues!
+```
 g@unit01:~/code/lash/lib/jstruct$ echo $Path
 /bin/sh
 g@unit01:~/code/lash/lib/jstruct$ echo $ResolvConfPath
@@ -250,6 +257,6 @@ g@unit01:~/code/lash/lib/jstruct$ decodeJson Config | encodeJson
 g@unit01:~/code/lash/lib/jstruct$ echo $(decodeJson Config | xargs echo -n) | encodeJson 
 {"AttachStderr":false,"AttachStdin":false,"AttachStdout":"false","Cmd":"[\"/bin/sh\",\"-c\",\"/init.sh\"]","Domainname":"","Env":"[\"LAUNCHID=9e01b5c2-892b-47f2-8f90-59f6e4d2798a\",\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\"http_proxy=\",\"MT_PATH=/usr/local/lib\",\"CORNERSTONE_HOST=172.17.0.1\",\"KVDN_START_TIME=5\",\"MY_START_TIME=1\",\"FAILURE_HOOK=echo FAILURE\",\"STARTUP_HOOKS=/startup.sh\",\"CAPABILITIES=[\\\"VAULT_SERVER\\\"]\",\"STARTUP_HOOK=/opt/vault/vault server -config=/opt/vault/config.hcl\"]","ExposedPorts":{"8200/tcp":[]},"Hostname":0,"Image":"shadowsystem/vault:latest","Labels":"[]","OpenStdin":false,"StdinOnce":false,"Tty":false}
 g@unit01:~/code/lash/lib/jstruct$ 
-
+```
 
 

@@ -12,6 +12,32 @@ g@unit01:~/code/lash/lib/jstruct$ source jstruct.sh
 g@unit01:~/code/lash/lib/jstruct$ JSON_STRING=$(docker inspect $(docker ps -q | head -n 1) ) decodeJson 
 JSON_STRING_1
 ```
+- lets decode the real thing
+```
+g@unit01:~/code/lash/lib/jstruct$ decodeJson JSON_STRING_1
+Path
+ResolvConfPath
+Driver
+Id
+Image
+ProcessLabel
+Mounts
+HostConfig
+Created
+HostnamePath
+NetworkSettings
+State
+Name
+RestartCount
+Config
+AppArmorProfile
+GraphDriver
+Args
+HostsPath
+MountLabel
+LogPath
+```
+
 - pretty print it with jq
 ```g@unit01:~/code/lash/lib/jstruct$ echo $JSON_STRING_1 | jq .```
 ```
@@ -177,31 +203,7 @@ JSON_STRING_1
 }
 ```
 
-- lets decode the real thing
-```
-g@unit01:~/code/lash/lib/jstruct$ decodeJson JSON_STRING_1
-Path
-ResolvConfPath
-Driver
-Id
-Image
-ProcessLabel
-Mounts
-HostConfig
-Created
-HostnamePath
-NetworkSettings
-State
-Name
-RestartCount
-Config
-AppArmorProfile
-GraphDriver
-Args
-HostsPath
-MountLabel
-LogPath
-```
+
 
 - hey look now all the keys are enviornment vars, dont worry about complex queries and wierd escape issues!
 ```

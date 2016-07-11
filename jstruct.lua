@@ -40,7 +40,7 @@ function l_encodeJson ()
   local tempt
   local decode = true
   for key,value in pairs(vars) do
-    t[value] = tostring(bash.getVariable(value))
+    t[value] = bash.getVariable(value)
     try {
       function()
         tempt = turbo.escape.json_decode(t[value])
@@ -51,6 +51,9 @@ function l_encodeJson ()
        end
       }
     }
+    if type(tempt) == "number" then
+      decode = false
+    end
     if decode then
       t[value] = tempt
     end

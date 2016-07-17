@@ -1,3 +1,6 @@
+
+- depends: https://github.com/cinterloper/LuaBash
+
 ```
 g@unit01:~/code/lash/lib/ext/luabash$ enable -f build/luabash.so luabash
 g@unit01:~/code/lash/lib/ext/luabash$ cd ../../

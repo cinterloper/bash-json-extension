@@ -19,6 +19,7 @@ end
 function l_decodeJson (decodeVar) 
   local jstring = bash.getVariable(decodeVar)
   local jsont = turbo.escape.json_decode(jstring)
+  local keyset = ''
   for key,value in pairs(jsont) do
     if type(value) == "table" then
       value = turbo.escape.json_encode(value)
@@ -30,7 +31,9 @@ function l_decodeJson (decodeVar)
     end
     bash.setVariable(key,value)
     print(key)
+    keyset = keyset .. key .. ' '
   end
+  bash.setVariable('DECODE_KEYS',keyset)
 end
 
 function l_encodeJson ()

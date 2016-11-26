@@ -1,20 +1,5 @@
 local turbo = require("turbo")
-
-
-function catch(what)
-   return what[1]
-end
-
-function try(what)
-   status, result = pcall(what[1])
-   if not status then
-      what[2](result)
-   end
-   return result
-end
-
-
-	
+t = {}
 
 function l_decodeJson (decodeVar) 
   local jstring = bash.getVariable(decodeVar)
@@ -39,27 +24,16 @@ end
 function l_encodeJson ()
   local varstring=bash.getVariable("KEY_SET") 
   local vars=varstring:split(" ")
-  t = {}
   local tempt
-  local decode = true
   for key,value in pairs(vars) do
-    t[value] = bash.getVariable(value)
-    try {
-      function()
-        tempt = turbo.escape.json_decode(t[value])
-      end,
-      catch {
-       function()
-         decode = false
-       end
-      }
-    }
-    if type(tempt) == "number" then
-      decode = false
-    end
-    if decode then
-      t[value] = tempt
-    end
+
+      try = pcall(function()
+        t[value] = turbo.escape.json_decode(bash.getVariable(value))
+      end) 
+      if not try then 
+        t[value] = bash.getVariable(value)
+      end
+        
   end
   local jsons = turbo.escape.json_encode(t)
   print(jsons)

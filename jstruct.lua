@@ -1,5 +1,4 @@
 local turbo = require("turbo")
-t = {}
 
 function l_decodeJson (decodeVar) 
   local jstring = bash.getVariable(decodeVar)
@@ -24,7 +23,8 @@ end
 function l_encodeJson ()
   local varstring=bash.getVariable("KEY_SET") 
   local vars=varstring:split(" ")
-  local tempt
+  local t = {}
+
   for key,value in pairs(vars) do
 
       try = pcall(function()
@@ -37,9 +37,9 @@ function l_encodeJson ()
   end
   local jsons = turbo.escape.json_encode(t)
   print(jsons)
-  t={}
 end
 
 
 bash.register("l_decodeJson")
 bash.register("l_encodeJson")
+

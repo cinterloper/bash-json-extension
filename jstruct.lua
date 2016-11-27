@@ -37,6 +37,7 @@ function l_encodeJson ()
   end
   local jsons = turbo.escape.json_encode(t)
   print(jsons)
+  t={}
 end
 
 

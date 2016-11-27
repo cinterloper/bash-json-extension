@@ -32,6 +32,9 @@ encodeJson() {
     l_encodeJson
   fi
 }
+mergeJson() {
+    l_mergeJson
+}
 #erm super hack for the moment but sometimes this is useful
 encodeJsonArray(){
   perl -e 'use JSON; @in=grep(s/\n$//, <>); print encode_json(\@in)."\n";'

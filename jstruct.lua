@@ -1,13 +1,11 @@
-local turbo = require("turbo")
-t = {}
-
+local JSON = (loadfile "ext/JSON.lua")() -- one-time load of the routines
 function l_decodeJson (decodeVar) 
   local jstring = bash.getVariable(decodeVar)
-  local jsont = turbo.escape.json_decode(jstring)
+  local jsont = JSON:decode(jstring)
   local keyset = ''
   for key,value in pairs(jsont) do
     if type(value) == "table" then
-      value = turbo.escape.json_encode(value)
+      value = JSON:encode(value)
     else
       value = tostring(value)
     end
@@ -24,18 +22,19 @@ end
 function l_encodeJson ()
   local varstring=bash.getVariable("KEY_SET") 
   local vars=varstring:split(" ")
-  local tempt
+  local t = {}
+
   for key,value in pairs(vars) do
 
       try = pcall(function()
-        t[value] = turbo.escape.json_decode(bash.getVariable(value))
+        t[value] = JSON:decode(bash.getVariable(value))
       end) 
       if not try then 
         t[value] = bash.getVariable(value)
       end
         
   end
-  local jsons = turbo.escape.json_encode(t)
+  local jsons = JSON:encode(t)
   print(jsons)
 end
 

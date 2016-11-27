@@ -37,3 +37,5 @@ encodeJsonArray(){
   perl -e 'use JSON; @in=grep(s/\n$//, <>); print encode_json(\@in)."\n";'
 }
 
+export JSTRUCT_VERSION='0.5'
+

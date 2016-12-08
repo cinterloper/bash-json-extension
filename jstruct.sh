@@ -25,20 +25,28 @@ encodeJson() {
   if [ "$KEY_SET" == "" ]
   then
     while read KEY; do
-      KEY_SET="$KEY "
-      l_encodeJson
+      KEY_SET="$KEY_SET $KEY"
     done
+    l_encodeJson
   else
     l_encodeJson
   fi
 }
 mergeJson() {
+  if [ "$KEY_SET" == "" ]
+  then
+    while read KEY; do
+      KEY_SET="$KEY_SET $KEY"
+    done
     l_mergeJson
+  else
+    l_mergeJson
+  fi
 }
 #erm super hack for the moment but sometimes this is useful
 encodeJsonArray(){
   perl -e 'use JSON; @in=grep(s/\n$//, <>); print encode_json(\@in)."\n";'
 }
 
-export JSTRUCT_VERSION='0.5'
+export JSTRUCT_VERSION='0.6'
 

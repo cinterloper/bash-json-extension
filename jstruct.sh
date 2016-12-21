@@ -20,6 +20,14 @@ decodeJson() {
     l_decodeJson $JSON_VAR
   fi
 }
+getJsonValue() {
+  JSON_PATH="$1"
+  if [ "$JSON_VAR" == "" ]
+  then
+    JSON_VAR="JSON_STRING"
+  fi
+  l_getJsonValue $JSON_PATH
+}
 #you can pipe to this, or set KEY_SET
 encodeJson() {
   if [ "$KEY_SET" == "" ]

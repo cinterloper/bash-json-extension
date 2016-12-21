@@ -1,5 +1,21 @@
+package.path = package.path .. ';./ext/LuLPeg/?.lua;./ext/?.lua'
+
 local JSON = (loadfile "ext/JSON.lua")() -- one-time load of the routines
+local jp = require "jsonpath"
 --https://github.com/torch/xlua/blob/98c11caac263e21f793ab2e6a8ed536b3c7cb135/init.lua#L689-L706
+
+local function isempty(s)
+  return s == nil or s == ''
+end
+
+function encodeJson(data,pretty)
+  local pretty = bash.getVariable("JSON_PRETTY")
+  if isempty(pretty) then
+    return JSON:encode(data)
+  else
+    return JSON:encode_pretty(data)
+  end
+end
 
 function string.split(str, pat)
    local t = {}  -- NOTE: use {n = 0} in Lua-5.0
@@ -37,6 +53,19 @@ local function merge(t1, t2)
 end
 
 
+function l_getJsonValue (valuePath)
+  local J_VAR=bash.getVariable("JSON_VAR")
+  local jstring = bash.getVariable(J_VAR)
+  local jsont = JSON:decode(jstring)
+  local lookup=jp.value(jsont,valuePath)
+  if type(lookup) == "table" then
+    print( encodeJson(lookup) )
+  else
+    print(lookup)
+  end
+end
+
+
 function l_mergeJson () 
   local varstring=bash.getVariable("KEY_SET") 
   local vars=varstring:split(" ")
@@ -48,7 +77,7 @@ function l_mergeJson ()
     mTable = nuTable
   end
 
-  print(JSON:encode(mTable))
+  print(encodeJson(mTable))
 end
 
 function l_decodeJson (decodeVar) 
@@ -57,7 +86,7 @@ function l_decodeJson (decodeVar)
   local keyset = ''
   for key,value in pairs(jsont) do
     if type(value) == "table" then
-      value = JSON:encode(value)
+      value = encodeJson(value)
     else
       value = tostring(value)
     end
@@ -86,7 +115,7 @@ function l_encodeJson ()
       end
         
   end
-  local jsons = JSON:encode(t)
+  local jsons = encodeJson(t)
   print(jsons)
 end
 
@@ -94,3 +123,4 @@ end
 bash.register("l_decodeJson")
 bash.register("l_encodeJson")
 bash.register("l_mergeJson")
+bash.register("l_getJsonValue")

@@ -28,6 +28,16 @@ getJsonValue() {
   fi
   l_getJsonValue $JSON_PATH
 }
+clearDecode() {
+  if [ "$DECODE_KEYS" != "" ]
+  then
+    for dk in $DECODE_KEYS
+    do
+      unset $dk
+    done
+  fi
+}
+
 #you can pipe to this, or set KEY_SET
 encodeJson() {
   if [ "$KEY_SET" == "" ]

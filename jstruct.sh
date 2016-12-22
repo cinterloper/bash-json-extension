@@ -63,7 +63,8 @@ mergeJson() {
 }
 #erm super hack for the moment but sometimes this is useful
 encodeJsonArray(){
-  perl -e 'use JSON; @in=grep(s/\n$//, <>); print encode_json(\@in)."\n";'
+#  perl -e 'use JSON; @in=grep(s/\n$//, <>); print encode_json(\@in)."\n";'
+  l_encodeJsonArray
 }
 
 export JSTRUCT_VERSION='0.6'

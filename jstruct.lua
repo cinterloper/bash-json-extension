@@ -1,5 +1,4 @@
 package.path = package.path .. ';./ext/LuLPeg/?.lua;./ext/?.lua'
-
 local JSON = (loadfile "ext/JSON.lua")() -- one-time load of the routines
 local jp = require "jsonpath"
 --https://github.com/torch/xlua/blob/98c11caac263e21f793ab2e6a8ed536b3c7cb135/init.lua#L689-L706
@@ -119,8 +118,17 @@ function l_encodeJson ()
   print(jsons)
 end
 
+function l_encodeJsonArray ()
+  local l = {}
+  for line in io.lines() do
+    table.insert(l,line)        
+  end
+  print(encodeJson(l))
+end
+
 
 bash.register("l_decodeJson")
 bash.register("l_encodeJson")
+bash.register("l_encodeJsonArray")
 bash.register("l_mergeJson")
 bash.register("l_getJsonValue")

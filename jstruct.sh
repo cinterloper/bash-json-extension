@@ -67,5 +67,5 @@ encodeJsonArray(){
   l_encodeJsonArray
 }
 
-export JSTRUCT_VERSION='0.6'
+export JSTRUCT_VERSION='0.7'
 

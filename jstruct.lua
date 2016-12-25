@@ -121,7 +121,13 @@ end
 function l_encodeJsonArray ()
   local l = {}
   for line in io.lines() do
-    table.insert(l,line)        
+      try = pcall(function()
+        local nxt = JSON:decode(line)
+        table.insert(l,nxt)
+      end) 
+      if not try then 
+        table.insert(l,line)
+      end
   end
   print(encodeJson(l))
 end

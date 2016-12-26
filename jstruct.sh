@@ -65,5 +65,6 @@ encodeJsonArray(){
   l_encodeJsonArray
 }
 
-export JSTRUCT_VERSION='0.7'
+export JSTRUCT_VERSION='1.0'
+export JSON_BASH_VERSION='1.0'
 

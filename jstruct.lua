@@ -119,21 +119,21 @@ function l_getJsonValue (valuePath)
 end
 
 
-function l_mergeJson () 
-  local varstring=bashGetVar("KEY_SET") 
+function l_mergeJson ()
+  local varstring=bashGetVar("KEY_SET")
   local vars=varstring:split(" ")
   mTable = {}
 
   for key,value in pairs(vars) do
     local newData = JSON:decode(bashGetVar(value))
-    local nuTable = merge(mTable,newData)  
+    local nuTable = merge(mTable,newData)
     mTable = nuTable
   end
 
   print(encodeJson(mTable))
 end
 
-function l_decodeJson (decodeVar) 
+function l_decodeJson (decodeVar)
   local jstring = bashGetVar(decodeVar)
   local jsont = JSON:decode(jstring)
   local keyset = ''
@@ -153,8 +153,28 @@ function l_decodeJson (decodeVar)
   bash.setVariable('DECODE_KEYS',keyset)
 end
 
+function l_jsonEach (decodeVar, eachFN)
+  local jstring = bashGetVar(decodeVar)
+  local jsont = JSON:decode(jstring)
+  local keyset = ''
+  for key,value in pairs(jsont) do
+    if type(value) == "table" then
+      value = encodeJson(value)
+    else
+      value = tostring(value)
+    end
+    if type(key) == "number" then
+      key = (decodeVar .. "_" .. tostring(key))
+    end
+    bash.setVariable("JSON_KEY",key)
+    bash.call(eachFN,value)
+    keyset = keyset .. key .. ' '
+  end
+  bash.setVariable('DECODE_KEYS',keyset)
+end
+
 function l_encodeJson ()
-  local varstring=bashGetVar("KEY_SET") 
+  local varstring=bashGetVar("KEY_SET")
   local vars=varstring:split(" ")
   local t = {}
 
@@ -162,11 +182,11 @@ function l_encodeJson ()
 
       try = pcall(function()
         t[value] = JSON:decode(bashGetVar(value))
-      end) 
-      if not try then 
+      end)
+      if not try then
         t[value] = bashGetVar(value)
       end
-        
+
   end
   local jsons = encodeJson(t)
   print(jsons)
@@ -178,8 +198,8 @@ function l_encodeJsonArray ()
       try = pcall(function()
         local nxt = JSON:decode(line)
         table.insert(l,nxt)
-      end) 
-      if not try then 
+      end)
+      if not try then
         table.insert(l,line)
       end
   end
@@ -191,4 +211,5 @@ bash.register("l_decodeJson")
 bash.register("l_encodeJson")
 bash.register("l_encodeJsonArray")
 bash.register("l_mergeJson")
+bash.register("l_jsonEach")
 bash.register("l_getJsonValue")

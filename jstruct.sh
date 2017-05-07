@@ -20,6 +20,24 @@ decodeJson() {
     l_decodeJson $JSON_VAR
   fi
 }
+jsonEach() {
+  eachFN="$2"
+  if [ "$eachFN" == "" ]
+  then
+    JSON_VAR="JSON_STRING"
+    eachFN="$1"
+  else
+    JSON_VAR="$1"
+  fi
+
+  if [ "$EACH_SILENT" != "" ]
+  then
+    l_jsonEach "$JSON_VAR" "$eachFN" > /dev/null
+  else
+    l_jsonEach "$JSON_VAR" "$eachFN"
+  fi
+}
+
 getJsonValue() {
   JSON_PATH="$1"
   if [ "$JSON_VAR" == "" ]

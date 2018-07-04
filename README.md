@@ -2,7 +2,7 @@
 - depends: https://github.com/masterkorp/LuaBash
 <p align="center">
 
-<img src="./example.svg">
+<img src="https://cdn.rawgit.com/cinterloper/bash-json-extension/master/example.svg">
 
 </p>
 
